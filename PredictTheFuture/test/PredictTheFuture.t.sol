@@ -18,11 +18,12 @@ contract PredictTheFutureTest is Test {
     function testGuess() public {
         // Set block number and timestamp
         // Use vm.roll() and vm.warp() to change the block.number and block.timestamp respectively
+        vm.deal(address(exploitContract), 1 ether);
+        exploitContract.guess();
         vm.roll(104293);
         vm.warp(93582192);
-
-        // Put your solution here
-
+                // Put your solution here
+        exploitContract.settle();
         _checkSolved();
     }
 

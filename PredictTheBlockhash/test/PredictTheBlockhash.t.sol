@@ -22,8 +22,11 @@ contract PredictTheBlockhashTest is Test {
         // To roll forward, add the number of blocks to blockNumber,
         // Eg. roll forward 10 blocks: blockNumber + 10
         vm.roll(blockNumber + 10);
-
+        exploitContract.lockInGuess{value: 1 ether}();
+        // wait for 256 blocks to pass for blockhas to return zero.
+        vm.roll(blockNumber + 12 + 260);
         // Put your solution here
+        exploitContract.exploit();
 
         _checkSolved();
     }

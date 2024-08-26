@@ -14,7 +14,7 @@ contract TokenWhaleTest is Test {
     address constant Pete = address(0x5E41E9);
 
     function setUp() public {
-        // Deploy contracts
+        // Deploy contract
         tokenWhale = new TokenWhale(address(this));
         exploitContract = new ExploitContract(tokenWhale);
     }
@@ -22,7 +22,9 @@ contract TokenWhaleTest is Test {
     // Use the instance tokenWhale and exploitContract
     // Use vm.startPrank and vm.stopPrank to change between msg.sender
     function testExploit() public {
-        // Put your solution here
+        tokenWhale.approve(address(exploitContract), 2000000);
+        exploitContract.exploit(address(this));
+
 
         _checkSolved();
     }

